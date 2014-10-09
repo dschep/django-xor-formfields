@@ -47,12 +47,12 @@ class MutuallyExclusiveRadioWidget(MultiWidget):
             radio_widgets[nonempty_widget] = RadioInput().render(name + '_radio', '', {'checked': ''}) 
         radio_name = name + '_radio'
         tpl = """
-<div id="{name}_container" class="mutually-exclusive-widget">
+<span id="{name}_container" class="mutually-exclusive-widget" style="display:inline-block">
     {widgets}
-</div>"""
+</span>"""
 
-        return tpl.format(name=name, widgets=''.join(
-            '<div>{0}</div>'.format(x + y)
+        return tpl.format(name=name, widgets='<br>'.join(
+            '<span>{0}</span>'.format(x + y)
             for x,y in zip(radio_widgets, rendered_widgets)))
 
     def decompress(self, value):
