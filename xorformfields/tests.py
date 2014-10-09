@@ -158,35 +158,35 @@ class MutuallyExclusiveRadioWidgetTestCase(TestCase):
                 '<span id="test_container" class="mutually-exclusive-widget" style="display:inline-block">'
                 '<span><input checked="" name="test_radio" type="radio" />'
                 '<select name="test_0"><option value="1">1</option>'
-                '<option value="2">2</option></select></span>'
+                '<option value="2">2</option></select></span><br>'
                 '<span><input name="test_radio" type="radio" />'
                 '<input name="test_1" placeholder="Enter a number" type="text" /></span></span>')
         self.assertHTMLEqual(w.render('test', ''),
                 '<span id="test_container" class="mutually-exclusive-widget" style="display:inline-block">'
                 '<span><input checked="" name="test_radio" type="radio" />'
                 '<select name="test_0"><option value="1">1</option>'
-                '<option value="2">2</option></select></span>'
+                '<option value="2">2</option></select></span><br>'
                 '<span><input name="test_radio" type="radio" />'
                 '<input name="test_1" placeholder="Enter a number" type="text" /></span></span>')
         self.assertHTMLEqual(w.render('test', '1'),
                 '<span id="test_container" class="mutually-exclusive-widget" style="display:inline-block">'
                 '<span><input checked="" name="test_radio" type="radio" />'
                 '<select name="test_0"><option value="1">1</option>'
-                '<option value="2">2</option></select></span>'
+                '<option value="2">2</option></select></span><br>'
                 '<span><input name="test_radio" type="radio" />'
                 '<input name="test_1" placeholder="Enter a number" type="text" /></span></span>')
         self.assertHTMLEqual(w.render('test', ['1', None]),
                 '<span id="test_container" class="mutually-exclusive-widget" style="display:inline-block">'
                 '<span><input checked="" name="test_radio" type="radio" />'
                 '<select name="test_0"><option value="1" selected="selected">1</option>'
-                '<option value="2">2</option></select></span>'
+                '<option value="2">2</option></select></span><br>'
                 '<span><input name="test_radio" type="radio" />'
                 '<input name="test_1" placeholder="Enter a number" type="text" /></span></span>')
         self.assertHTMLEqual(w.render('test', [None, '1']),
                 '<span id="test_container" class="mutually-exclusive-widget" style="display:inline-block">'
                 '<span><input name="test_radio" type="radio" /><select name="test_0">'
                 '<option value="1">1</option><option value="2">2</option>'
-                '</select></span><span><input checked="" name="test_radio" type="radio" />'
+                '</select></span><br><span><input checked="" name="test_radio" type="radio" />'
                 '<input name="test_1" placeholder="Enter a number" type="text" value="1" /></span></span>')
 
 
@@ -196,28 +196,28 @@ class FileOrURLWidgetTestCase(TestCase):
         self.assertHTMLEqual(w.render('test', None),
                 '<span id="test_container" class="mutually-exclusive-widget" style="display:inline-block">'
                 '<span><input checked="" name="test_radio" type="radio" />'
-                '<input name="test_0" type="file" /></span><span>'
+                '<input name="test_0" type="file" /></span><br><span>'
                 '<input name="test_radio" type="radio" />'
                 '<input name="test_1" placeholder="Enter URL" type="url" />'
                 '</span></span>')
         self.assertHTMLEqual(w.render('test', ''),
                 '<span id="test_container" class="mutually-exclusive-widget" style="display:inline-block">'
                 '<span><input checked="" name="test_radio" type="radio" />'
-                '<input name="test_0" type="file" /></span><span>'
+                '<input name="test_0" type="file" /></span><br><span>'
                 '<input name="test_radio" type="radio" />'
                 '<input name="test_1" placeholder="Enter URL" type="url" />'
                 '</span></span>')
         self.assertHTMLEqual(w.render('test', 'http://example.com'),
                 '<span id="test_container" class="mutually-exclusive-widget" style="display:inline-block">'
                 '<span><input name="test_radio" type="radio" />'
-                '<input name="test_0" type="file" /></span><span>'
+                '<input name="test_0" type="file" /></span><br><span>'
                 '<input checked="" name="test_radio" type="radio" />'
                 '<input name="test_1" placeholder="Enter URL" type="url" value="http://example.com"/>'
                 '</span></span>')
         self.assertHTMLEqual(w.render('test', [None, 'http://example.com']),
                 '<span id="test_container" class="mutually-exclusive-widget" style="display:inline-block">'
                 '<span><input name="test_radio" type="radio" />'
-                '<input name="test_0" type="file" /></span><span>'
+                '<input name="test_0" type="file" /></span><br><span>'
                 '<input checked="" name="test_radio" type="radio" />'
                 '<input name="test_1" placeholder="Enter URL" type="url" '
                 'value="http://example.com" />'
