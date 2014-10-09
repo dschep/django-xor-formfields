@@ -8,7 +8,7 @@ from django import forms
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.conf import settings
 
-from mutuallyexclusive_formfields.forms import (
+from .forms import (
         FileOrURLField, MutuallyExclusiveRadioWidget,
         MutuallyExclusiveValueField, FileOrURLWidget,
         )

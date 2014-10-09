@@ -9,7 +9,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name='django-mutually-exclusive-form-fields',
+    name='django-xor-formfields',
 
     version='0.0.1',
 
@@ -41,7 +41,7 @@ setup(
 
     keywords='django development forms',
 
-    packages=['mutuallyexclusive_formfields'],
+    packages=['xorformfields'],
 
     install_requires=['django', 'requests'],
 
