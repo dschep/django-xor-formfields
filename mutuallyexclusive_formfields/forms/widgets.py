@@ -51,7 +51,7 @@ class MutuallyExclusiveRadioWidget(MultiWidget):
     {widgets}
 </span>"""
 
-        return tpl.format(name=name, widgets='<br>'.join(
+        return tpl.format(name=name, widgets=''.join(
             '<span>{0}</span>'.format(x + y)
             for x,y in zip(radio_widgets, rendered_widgets)))
 
