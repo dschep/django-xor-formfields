@@ -41,7 +41,7 @@ setup(
 
     keywords='django development forms',
 
-    packages=['xorformfields'],
+    packages=['xorformfields', 'xorformfields.forms'],
 
     install_requires=['django', 'requests'],
 
