@@ -24,7 +24,7 @@ setup(
     license='MIT',
 
     classifiers=[
-        'Development Status :: 3 - Beta',
+        'Development Status :: 4 - Beta',
 
         'Intended Audience :: Developers',
 
