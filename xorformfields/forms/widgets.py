@@ -3,6 +3,11 @@ from django.core.validators import EMPTY_VALUES
 from django.utils.safestring import mark_safe
 from django.core.files.uploadedfile import UploadedFile
 
+try:
+    unicode
+except NameError:
+    unicode = str
+
 __all__ = ['RadioInput', 'URLInput', 'MutuallyExclusiveRadioWidget', 'FileOrURLWidget']
 
 

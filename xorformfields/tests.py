@@ -1,7 +1,15 @@
-import StringIO
+from __future__ import absolute_import, unicode_literals
+
+try:
+    from io import StringIO
+except ImportError:
+    from StringIO import StringIO
 import tempfile
 import shutil
-import urlparse
+try:
+    from urllib.parse import urljoin
+except ImportError:
+    from urlparse import urljoin
 
 from django.test import TestCase
 from django import forms
@@ -67,7 +75,7 @@ class OptionalMutuallyExclusiveValueFieldTestCase(TestCase):
 
 class FileOrURLTestCaseBase(TestCase):
     test_file = InMemoryUploadedFile(
-            StringIO.StringIO(' '), None, 'file', 'text/plain', 1, None)
+            StringIO(' '), None, 'file', 'text/plain', 1, None)
     test_url = 'http://example.com/'
 
     def setUp(self):
@@ -145,7 +153,7 @@ class FileOrURLToURLTestCase(FileOrURLPassthrougURLTestCase):
         self.assertTrue(form.is_valid())
         self.assertEqual(
                 form.cleaned_data['test_field'],
-                urlparse.urljoin(settings.MEDIA_URL, 'TEST/file'))
+                urljoin(settings.MEDIA_URL, 'TEST/file'))
 
 
 class MutuallyExclusiveRadioWidgetTestCase(TestCase):

@@ -1,4 +1,7 @@
-from StringIO import StringIO
+try:
+    from io import StringIO
+except ImportError:
+    from StringIO import StringIO
 import posixpath
 
 from django.core.exceptions import ValidationError
@@ -105,7 +108,7 @@ class FileOrURLField(MutuallyExclusiveValueField):
         if 'upload_to' in kwargs:
             self.upload_to = kwargs.pop('upload_to')
         elif self.to == 'url':
-            raise RuntimeError, 'If normalizing to an URL `upload_to` must be set'
+            raise RuntimeError('If normalizing to an URL `upload_to` must be set')
         fields = (FileField(), URLField())
         super(FileOrURLField, self).__init__(fields, *args, **kwargs)
 
@@ -132,7 +135,7 @@ class FileOrURLField(MutuallyExclusiveValueField):
                     posixpath.basename(value),
                     resp.headers['content-type'],
                     io.len, None)
-        elif self.to is 'url' and isinstance(value, UploadedFile):
+        elif self.to == 'url' and isinstance(value, UploadedFile):
             path = default_storage.save(
                     posixpath.join(self.upload_to, value.name),
                     ContentFile(value.read()))
