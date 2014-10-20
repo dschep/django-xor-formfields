@@ -11,7 +11,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 setup(
     name='django-xor-formfields',
 
-    version='0.0.1',
+    version='0.0.2',
 
     description='Mutually Exclusive form field wigets for Django',
     long_description=long_description,
@@ -24,7 +24,7 @@ setup(
     license='MIT',
 
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 3 - Beta',
 
         'Intended Audience :: Developers',
 
