@@ -8,7 +8,8 @@ try:
 except NameError:
     unicode = str
 
-__all__ = ['RadioInput', 'URLInput', 'MutuallyExclusiveRadioWidget', 'FileOrURLWidget']
+__all__ = ['RadioInput', 'URLInput', 'MutuallyExclusiveRadioWidget',
+           'FileOrURLWidget']
 
 
 class RadioInput(Input):
@@ -43,22 +44,26 @@ class MutuallyExclusiveRadioWidget(MultiWidget):
                     nonempty_widget = i
             if id_:
                 final_attrs = dict(final_attrs, id='%s_%s' % (id_, i))
-            output.append(widget.render(name + '_%s' % i, widget_value, final_attrs))
-        return mark_safe(unicode(self.format_output(nonempty_widget, name, output)))
+            output.append(widget.render(
+                name + '_%s' % i, widget_value, final_attrs))
+        return mark_safe(unicode(
+            self.format_output(nonempty_widget, name, output)))
 
     def format_output(self, nonempty_widget, name, rendered_widgets):
-        radio_widgets = [RadioInput().render(name + '_radio', '', {})] * len(rendered_widgets)
+        radio_widgets = [RadioInput().render(
+            name + '_radio', '', {})] * len(rendered_widgets)
         if nonempty_widget is not None:
-            radio_widgets[nonempty_widget] = RadioInput().render(name + '_radio', '', {'checked': ''}) 
-        radio_name = name + '_radio'
+            radio_widgets[nonempty_widget] = RadioInput().render(
+                name + '_radio', '', {'checked': ''})
         tpl = """
-<span id="{name}_container" class="mutually-exclusive-widget" style="display:inline-block">
+<span id="{name}_container" class="mutually-exclusive-widget"
+    style="display:inline-block">
     {widgets}
 </span>"""
 
         return tpl.format(name=name, widgets='<br>'.join(
             '<span>{0}</span>'.format(x + y)
-            for x,y in zip(radio_widgets, rendered_widgets)))
+            for x, y in zip(radio_widgets, rendered_widgets)))
 
     def decompress(self, value):
         """
@@ -94,4 +99,4 @@ class FileOrURLWidget(MutuallyExclusiveRadioWidget):
             return self.decompress(files[name])
         else:
             return super(FileOrURLWidget, self).value_from_datadict(
-                    data, files, name)
+                data, files, name)

@@ -14,7 +14,7 @@ from django.core.files.base import ContentFile
 
 import requests
 
-from .widgets import *
+from .widgets import FileOrURLWidget
 
 
 __all__ = ['MutuallyExclusiveValueField', 'FileOrURLField']
@@ -23,6 +23,7 @@ __all__ = ['MutuallyExclusiveValueField', 'FileOrURLField']
 class MutuallyExclusiveValueField(MultiValueField):
     too_many_values_error = 'Exactly One field is required, no more'
     empty_values = EMPTY_VALUES
+
     def clean(self, value):
         """
         Validates every value in the given list. A value is validated against
@@ -36,19 +37,23 @@ class MutuallyExclusiveValueField(MultiValueField):
                 fields=(forms.IntegerField(), forms.IntegerField()),
                 widget=MutuallyExclusiveRadioWidget(widgets=[
                         forms.Select(choices=[(1,1), (2,2)]),
-                        forms.TextInput(attrs={'placeholder': 'Enter a number'}),
+                        forms.TextInput(attrs={'placeholder':
+                                               'Enter a number'}),
                     ]))
         """
         clean_data = []
         errors = ErrorList()
         if not value or isinstance(value, (list, tuple)):
-            if not value or not [v for v in value if v not in self.empty_values]:
+            if not value or not [
+                    v for v in value if v not in self.empty_values]:
                 if self.required:
-                    raise ValidationError(self.error_messages['required'], code='required')
+                    raise ValidationError(
+                        self.error_messages['required'], code='required')
                 else:
                     return self.compress([])
         else:
-            raise ValidationError(self.error_messages['invalid'], code='invalid')
+            raise ValidationError(
+                self.error_messages['invalid'], code='invalid')
         for i, field in enumerate(self.fields):
             try:
                 field_value = value[i]
@@ -81,7 +86,7 @@ class MutuallyExclusiveValueField(MultiValueField):
 
         non_empty_list = [d for d in data_list if d not in self.empty_values]
 
-        if len(non_empty_list) == 0 and self.required == False:
+        if len(non_empty_list) == 0 and not self.required:
             return None
         elif len(non_empty_list) > 1:
             raise ValidationError(self.too_many_values_error)
@@ -108,7 +113,8 @@ class FileOrURLField(MutuallyExclusiveValueField):
         if 'upload_to' in kwargs:
             self.upload_to = kwargs.pop('upload_to')
         elif self.to == 'url':
-            raise RuntimeError('If normalizing to an URL `upload_to` must be set')
+            raise RuntimeError('If normalizing to an URL `upload_to` '
+                               'must be set')
         fields = (FileField(), URLField())
         super(FileOrURLField, self).__init__(fields, *args, **kwargs)
 
@@ -131,14 +137,14 @@ class FileOrURLField(MutuallyExclusiveValueField):
                 raise ValidationError(self.url_fetch_error)
             io = StringIO(resp.content)
             return InMemoryUploadedFile(
-                    io, None,
-                    posixpath.basename(value),
-                    resp.headers['content-type'],
-                    io.len, None)
+                io, None,
+                posixpath.basename(value),
+                resp.headers['content-type'],
+                io.len, None)
         elif self.to == 'url' and isinstance(value, UploadedFile):
             path = default_storage.save(
-                    posixpath.join(self.upload_to, value.name),
-                    ContentFile(value.read()))
+                posixpath.join(self.upload_to, value.name),
+                ContentFile(value.read()))
             if self.no_aws_qs:
                 default_storage.querystring_auth = False
             return default_storage.url(path)
