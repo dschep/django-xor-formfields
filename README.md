@@ -1,5 +1,16 @@
 # Mutually Exclusive Form Fields
 
+## Install
+### PyPI
+```
+pip install django-xor-formfields
+```
+
+### Source
+```
+python setup.py install
+```
+
 ## Example mutually exclusive form field (TextInput & Select):
 ```
 MutuallyExclusiveValueField(
