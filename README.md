@@ -26,3 +26,11 @@ FileOrUrlField(to='url', upload_to='foobar') # always validates to an URL
 #### AWS note:
 The `FileOrUrlField` supports a they keyword argument `no_aws_qs` which
 disables aws querystring authorization if using AWS via `django-storages`
+
+## Tests & coverage!
+to run the tests simply run:
+```
+DJANGO_SETTINGS_MODULE=xorformfields.test_settings django-admin.py test xorformfields
+```
+
+Coverage results are available here: https://dschep.github.io/django-xor-formfields/htmlcov/
