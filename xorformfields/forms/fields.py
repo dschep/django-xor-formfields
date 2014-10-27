@@ -3,6 +3,7 @@ try:
 except ImportError:
     from StringIO import StringIO
 import posixpath
+import os
 
 from django.core.exceptions import ValidationError
 from django.forms.fields import MultiValueField, FileField, URLField
@@ -126,21 +127,25 @@ class FileOrURLField(MutuallyExclusiveValueField):
     def to_python(self, value):
         value = super(FileOrURLField, self).to_python(value)
 
-        if self.to is None:
+        if self.to == None:
             return value
-        elif self.to is 'file' and not isinstance(value, UploadedFile):
+        elif self.to == 'file' and not isinstance(value, UploadedFile):
             try:
                 resp = requests.get(value)
             except:
                 raise ValidationError(self.url_fetch_error)
             if not (200 <= resp.status_code < 400):
                 raise ValidationError(self.url_fetch_error)
-            io = StringIO(resp.content)
+            io = StringIO(unicode(resp.content))
+            io.seek(0)
+            io.seek(os.SEEK_END)
+            size = io.tell()
+            io.seek(0)
             return InMemoryUploadedFile(
                 io, None,
                 posixpath.basename(value),
                 resp.headers['content-type'],
-                io.len, None)
+                size, None)
         elif self.to == 'url' and isinstance(value, UploadedFile):
             path = default_storage.save(
                 posixpath.join(self.upload_to, value.name),
