@@ -15,7 +15,7 @@ from django.core.files.base import ContentFile
 
 import requests
 
-from .widgets import FileOrURLWidget
+from .widgets import MutuallyExclusiveRadioWidget, FileOrURLWidget
 
 
 __all__ = ['MutuallyExclusiveValueField', 'FileOrURLField']
@@ -24,6 +24,13 @@ __all__ = ['MutuallyExclusiveValueField', 'FileOrURLField']
 class MutuallyExclusiveValueField(MultiValueField):
     too_many_values_error = 'Exactly One field is required, no more'
     empty_values = EMPTY_VALUES
+
+    def __init__(self, fields=(), *args, **kwargs):
+        if 'widget' not in kwargs:
+            kwargs['widget'] = MutuallyExclusiveRadioWidget(widgets=[
+                field.widget for field in fields])
+        super(MutuallyExclusiveValueField, self).__init__(
+            fields, *args, **kwargs)
 
     def clean(self, value):
         """
