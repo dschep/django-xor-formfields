@@ -13,6 +13,12 @@ python setup.py install
 
 ## Example mutually exclusive form field (TextInput & Select):
 ```
+# with a widget inference
+MutuallyExclusiveValueField(
+    fields=(forms.TypedChoiceField(choices=[(1,1), (2,2)], coerce=int),
+            forms.IntegerField()))
+
+# manual widget creation (allows for the placeholder attr & other customization)
 MutuallyExclusiveValueField(
     fields=(forms.IntegerField(), forms.IntegerField()),
     widget=MutuallyExclusiveRadioWidget(widgets=[
