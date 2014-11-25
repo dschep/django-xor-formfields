@@ -42,12 +42,8 @@ class MutuallyExclusiveValueField(MultiValueField):
 
         example to use directy (instead of using FileOrURLField):
             MutuallyExclusiveValueField(
-                fields=(forms.IntegerField(), forms.IntegerField()),
-                widget=MutuallyExclusiveRadioWidget(widgets=[
-                        forms.Select(choices=[(1,1), (2,2)]),
-                        forms.TextInput(attrs={'placeholder':
-                                               'Enter a number'}),
-                    ]))
+                fields=(forms.TypedChoiceField(choices=[(1,1), (2,2)], coerce=int),
+                        forms.IntegerField()))
         """
         clean_data = []
         errors = ErrorList()
