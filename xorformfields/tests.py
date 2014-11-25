@@ -13,8 +13,10 @@ except ImportError:
 
 from django.test import TestCase
 from django import forms
+from django.forms import widgets
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.conf import settings
+from django import VERSION
 
 from mock import patch
 
@@ -22,6 +24,8 @@ from xorformfields.forms import (
     FileOrURLField, MutuallyExclusiveRadioWidget,
     MutuallyExclusiveValueField, FileOrURLWidget,
     )
+
+djversion = float('.'.join(map(str, VERSION[:2])))
 
 
 class MutuallyExclusiveValueFieldTestCase(TestCase):
@@ -62,6 +66,41 @@ class MutuallyExclusiveValueFieldTestCase(TestCase):
     def test_bad_value(self):
         form = self.form({'test_field_0': 'error'})
         self.assertFalse(form.is_valid())
+
+
+class MutuallyExclusiveValueFieldInferedWidgetsTestCase(
+        MutuallyExclusiveValueFieldTestCase):
+    def setUp(self):
+        class TestForm(forms.Form):
+            test_field = MutuallyExclusiveValueField(
+                fields=(forms.IntegerField(), forms.TypedChoiceField(
+                    choices=[(1, 'one'), (2, 'two'), (3, 'three')],
+                    coerce=int)))
+        self.form = TestForm
+
+    def test_bad_choice_value(self):
+        form = self.form({'test_field_1': '4'})
+        self.assertFalse(form.is_valid())
+
+    def test_generated_widget(self):
+        widget = self.form().fields['test_field'].widget
+        self.assertIsInstance(
+            widget.widgets[0],
+            widgets.NumberInput if djversion >= 1.6 else widgets.Input)
+        self.assertIsInstance(widget.widgets[1], widgets.Select)
+        self.assertEqual(widget.widgets[1].choices,
+                         [(1, 'one'), (2, 'two'), (3, 'three')])
+        self.assertHTMLEqual(
+            widget.render('test', None),
+            '<span id="test_container" class="mutually-exclusive-widget" '
+            'style="display:inline-block">'
+            '<span><input checked="" name="test_radio" type="radio" />'
+            '<input name="test_0" type="number" /></span><br><span>'
+            '<input name="test_radio" type="radio" /><select name="test_1">'
+            '<option value="1">one</option>'
+            '<option value="2">two</option>'
+            '<option value="3">three</option>'
+            '</select></span></span>')
 
 
 class LocalizedMutuallyExclusiveValueFieldTestCase(TestCase):
