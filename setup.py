@@ -1,4 +1,4 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 from codecs import open
 from os import path
 
@@ -11,7 +11,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 setup(
     name='django-xor-formfields',
 
-    version='0.0.3',
+    version='0.0.4',
 
     description='Mutually Exclusive form field wigets for Django',
     long_description=long_description,
