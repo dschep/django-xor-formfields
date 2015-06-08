@@ -8,4 +8,5 @@ python:
   - "pypy"
 install:
   - "pip install ."
-script: django-admin.py test xorformfields
+  - "pip install mock"
+script: mkdir foo && cd foo && django-admin.py test xorformfields
