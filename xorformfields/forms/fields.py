@@ -2,6 +2,10 @@ try:
     from io import StringIO
 except ImportError:
     from StringIO import StringIO
+try:
+    unicode
+except NameError:
+    unicode = str
 import posixpath
 import os
 
