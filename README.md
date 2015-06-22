@@ -1,5 +1,6 @@
 # Mutually Exclusive Form Fields
 [![Build Status](https://travis-ci.org/dschep/django-xor-formfields.svg?branch=master)](https://travis-ci.org/dschep/django-xor-formfields)
+[![PyPi](https://img.shields.io/pypi/v/django-xor-formfields.svg)](https://pypi.python.org/pypi/django-xor-formfields)
 
 Easily add mutually exclusive fields to Django forms.
 ## Install
