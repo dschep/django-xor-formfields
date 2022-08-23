@@ -1,4 +1,4 @@
-from django.forms.widgets import Input, MultiWidget, FileInput
+from django.forms.widgets import MultiWidget, FileInput, URLInput, RadioSelect
 from django.core.validators import EMPTY_VALUES
 from django.utils.safestring import mark_safe
 from django.core.files.uploadedfile import UploadedFile
@@ -8,21 +8,12 @@ try:
 except NameError:
     unicode = str
 
-__all__ = ['RadioInput', 'URLInput', 'MutuallyExclusiveRadioWidget',
+__all__ = ['MutuallyExclusiveRadioWidget',
            'FileOrURLWidget']
 
 
-class RadioInput(Input):
-    input_type = 'radio'
-
-
-# for compatiblity with older Django verisons
-class URLInput(Input):
-    input_type = 'url'
-
-
 class MutuallyExclusiveRadioWidget(MultiWidget):
-    def render(self, name, value, attrs=None):
+    def render(self, name, value, attrs=None, renderer=None):
         if self.is_localized:
             for widget in self.widgets:
                 widget.is_localized = self.is_localized
@@ -50,10 +41,10 @@ class MutuallyExclusiveRadioWidget(MultiWidget):
             self.format_output(nonempty_widget, name, output)))
 
     def format_output(self, nonempty_widget, name, rendered_widgets):
-        radio_widgets = [RadioInput().render(
+        radio_widgets = [RadioSelect().render(
             name + '_radio', '', {})] * len(rendered_widgets)
         if nonempty_widget is not None:
-            radio_widgets[nonempty_widget] = RadioInput().render(
+            radio_widgets[nonempty_widget] = RadioSelect().render(
                 name + '_radio', '', {'checked': ''})
         tpl = """
 <span id="{name}_container" class="mutually-exclusive-widget"
