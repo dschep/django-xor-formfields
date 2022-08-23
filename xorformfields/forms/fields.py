@@ -44,7 +44,7 @@ class MutuallyExclusiveValueField(MultiValueField):
         Only allows for exactly 1 valid value to be submitted, this is what
         gets returned by compress.
 
-        example to use directy (instead of using FileOrURLField):
+        example to use directly (instead of using FileOrURLField):
             MutuallyExclusiveValueField(
                 fields=(forms.TypedChoiceField(choices=[(1,1), (2,2)], coerce=int),
                         forms.IntegerField()))
@@ -108,10 +108,10 @@ class FileOrURLField(MutuallyExclusiveValueField):
 
     def __init__(self, to=None, *args, **kwargs):
         """
-        Accepts EITHER a file or an URL.
+        Accepts EITHER a file or a URL.
         The `to` parameter accepts 3 values:
             None: default to_python, returns either url or file
-            'file': if an url is submited, download it into an inmemory object
+            'file': if an url is submitted, download it into an in-memory object
             'url': uploads the file to default storage and returns the URL
         The`upload_to` param must be set when to='url'
         if using AWS, set no_aws_qs to disable querystring auth
