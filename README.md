@@ -33,21 +33,23 @@ MutuallyExclusiveValueField(
         ]))
 ```
 
-## Using FileOrUrlField
+## Using FileOrURLField
 This library also includes a more complete field that inherits from
-`MutuallyExclusiveValueField` that allows users to upload files via an URL or a
+`MutuallyExclusiveValueField` that allows users to upload files via a URL or a
 file upload. The field accepts a `to` parameter accepting the following values:
 `None, 'url', 'file'`. This value causes the field to perform either no
-normalization, normalization to an url (by storing uploaded files as media) or
+normalization, normalization to a URL (by storing uploaded files as media) or
 to a file (by downloading urls to an `InMemoryUploadedFile`).
 ### Example:
-```
-FileOrUrlField(None) # returns UploadedFile objects or URL based on user input
-FileOrUrlField(to='file') # always validates to an UploadedFile
-FileOrUrlField(to='url', upload_to='foobar') # always validates to an URL
+```python
+from xorformfields.forms import FileOrURLField
+
+FileOrURLField(None) # returns UploadedFile objects or URL based on user input
+FileOrURLField(to='file') # always validates to an UploadedFile
+FileOrURLField(to='url', upload_to='foobar') # always validates to a URL
 ```
 #### AWS note:
-The `FileOrUrlField` supports a keyword argument `no_aws_qs` which
+The `FileOrURLField` supports a keyword argument `no_aws_qs` which
 disables aws querystring authorization if using AWS via `django-storages`
 
 ## Tests & coverage!
