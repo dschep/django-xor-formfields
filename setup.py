@@ -32,7 +32,6 @@ setup(
         'License :: OSI Approved :: MIT License',
 
         'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.0',
@@ -46,7 +45,7 @@ setup(
 
     packages=['xorformfields', 'xorformfields.forms'],
 
-    install_requires=['django', 'requests'],
+    install_requires=['django>=1.7', 'requests'],
 
     package_data={
         'xorformfields': ['static/mutually_exclusive_widget.js'],

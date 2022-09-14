@@ -11,7 +11,7 @@ import os
 
 from django.core.exceptions import ValidationError
 from django.forms.fields import MultiValueField, FileField, URLField
-from django.forms.util import ErrorList
+from django.forms.utils import ErrorList
 from django.core.validators import EMPTY_VALUES
 from django.core.files.uploadedfile import UploadedFile, InMemoryUploadedFile
 from django.core.files.storage import default_storage
