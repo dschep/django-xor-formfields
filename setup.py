@@ -13,8 +13,9 @@ setup(
 
     version='0.1.0',
 
-    description='Mutually Exclusive form field wigets for Django',
+    description='Mutually Exclusive form field widgets for Django',
     long_description=long_description,
+    long_description_content_type='text/markdown',
 
     url='https://github.com/dschep/django-mutuallyexclusive-formfields',
 
